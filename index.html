@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- <script src="main.js" defer></script> -->
+  <link rel="stylesheet" href="./styleV.css">
+  <title>Weather App (Async-await)</title>
+</head>
+<body>
+
+  <div class="content">
+    <label for=""  class="content">Enter your city for weather report:</label>
+    <input type="text"  class="content" id="userInput">
+    <button  class="content">Generate weather report</button>
+    <p></p>
+  </div>
+
+  <script>
+    let userSearchTerm = '';
+    let p = document.querySelector('p');
+    const img = document.querySelector('img');
+    const button = document.querySelector('button');
+    button.addEventListener('click', () => {
+        userSearchTerm = document.querySelector('#userInput');
+        async function fetchWeather() {
+          const weatherDataRaw = await fetch(`http://api.openweathermap.org/data/2.5/weather?q=${userSearchTerm.value}&units=metric&limit=1&APPID=ed79c0f9350cdc664ba13f468691ecf5`, { mode: 'cors' });
+          const weatherData = await weatherDataRaw.json();
+          console.log(weatherData);
+          p.textContent = `Temperature in ${userSearchTerm.value} is ${weatherData.main.temp}C`;
+        };
+        fetchWeather().catch(function () {
+            p.textContent = 'Voidness!!!';
+          });
+          // or
+          // fetchWeather().catch(() => {
+          //  p.textContent = 'Voidness!!!';
+          // });
+      });
+  </script>
+
+</body>
+</html>
